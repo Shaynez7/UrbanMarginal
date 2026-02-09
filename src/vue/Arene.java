@@ -1,19 +1,23 @@
 package vue;
 
-import java.awt.EventQueue;
 import java.awt.Dimension;
+import java.net.URL;
+
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
-import java.net.URL;
-import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 
-public class Arene extends JFrame {
+import controleur.Global;
+
+/**
+ * Frame qui affiche et gère l'arène du jeu
+ */
+public class Arene extends JFrame implements Global {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -29,17 +33,15 @@ public class Arene extends JFrame {
 		this.getContentPane().setPreferredSize(new Dimension(800, 600 + 25 + 140));
 		this.pack();
 		contentPane = new JPanel();
-		contentPane.setLayout(null); 
-		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
 		JLabel lblFond = new JLabel("");
 		lblFond.setBounds(0, 0, 800, 600);
-		contentPane.add(lblFond);
-		
-		String chemin = "fonds/fondarene.jpg";
+		String chemin = FONDARENE;
 		URL resource = getClass().getClassLoader().getResource(chemin);
 		lblFond.setIcon(new ImageIcon(resource));
+		contentPane.add(lblFond);
 		
 		txtSaisie = new JTextField();
 		txtSaisie.setBounds(0, 600, 800, 25);

@@ -1,47 +1,57 @@
 package vue;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import controleur.Controle;
+import controleur.Global;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
 
-public class EntreeJeu extends JFrame {
+/**
+ * Frame d'entrée du jeu, pour démarrer un serveur ou un client
+ */
+public class EntreeJeu extends JFrame implements Global{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtIp;
-
-
+	private Arene frmArene;
+	private ChoixJoueur frmChoixJoueur;
+	private Controle controle;
+	
+	/**
+	 * Clic sur le bouton Exit
+	 * Sortie de l'application
+	 */
 	private void btnExit_clic() {
-	    System.exit(0);
+		System.exit(0);
 	}
-
-
-	private void btnStart_clic() {
-	    Arene arene = new Arene(); 
-	    arene.setVisible(true);     
-	    this.dispose();            
-	}
-
 	
+	/**
+	 * Clic sur le bouton Connect
+	 * demande au contrôleur de se connecter à un serveur
+	 */
 	private void btnConnect_clic() {
-	    ChoixJoueur choixJoueur = new ChoixJoueur(); 
-	    choixJoueur.setVisible(true);              
-	    this.dispose();                             
+		this.controle.evenementEntreeJeu(txtIp.getText().toString());
 	}
-
 	
+	/**
+	 * Clic sur le bouton Start
+	 * demande au contrôleur de démarrer un serveur
+	 */
+	private void btnStart_clic() {
+		this.controle.evenementEntreeJeu(SERVEUR);
+	}
 
 	/**
 	 * Create the frame.
 	 */
-	public EntreeJeu() {
+	public EntreeJeu(Controle controle) {
 		setTitle("Urban Marginal");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,19 +59,10 @@ public class EntreeJeu extends JFrame {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		JButton btnExit = new JButton("Exit");
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnExit_clic();
-			}
-		});
-		btnExit.setBounds(194, 91, 69, 21);
-		contentPane.add(btnExit);
-		
-		JLabel txt = new JLabel("Start a server :");
-		txt.setBounds(20, 12, 84, 17);
-		contentPane.add(txt);
+
+		JLabel lblStartAServer = new JLabel("Start a server :");
+		lblStartAServer.setBounds(10, 11, 94, 14);
+		contentPane.add(lblStartAServer);
 		
 		JButton btnStart = new JButton("Start");
 		btnStart.addActionListener(new ActionListener() {
@@ -69,31 +70,42 @@ public class EntreeJeu extends JFrame {
 				btnStart_clic();
 			}
 		});
-		btnStart.setBounds(194, 10, 69, 21);
+		btnStart.setBounds(186, 7, 89, 23);
 		contentPane.add(btnStart);
+		
+		JLabel lblConnectAnExisting = new JLabel("Connect an existing server :");
+		lblConnectAnExisting.setBounds(10, 36, 197, 14);
+		contentPane.add(lblConnectAnExisting);
+		
+		JLabel lblIpServer = new JLabel("IP server :");
+		lblIpServer.setBounds(10, 61, 68, 14);
+		contentPane.add(lblIpServer);
 		
 		JButton btnConnect = new JButton("Connect");
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				btnConnect_clic();
+				 btnConnect_clic();
 			}
 		});
-		btnConnect.setBounds(194, 60, 69, 21);
+		btnConnect.setBounds(186, 57, 89, 23);
 		contentPane.add(btnConnect);
-		
-		JLabel txt2 = new JLabel("Connect an existing server :");
-		txt2.setBounds(20, 39, 209, 12);
-		contentPane.add(txt2);
-		
-		JLabel txt3 = new JLabel("IP server :");
-		txt3.setBounds(20, 64, 56, 12);
-		contentPane.add(txt3);
 		
 		txtIp = new JTextField();
 		txtIp.setText("127.0.0.1");
-		txtIp.setBounds(86, 61, 96, 18);
+		txtIp.setBounds(69, 58, 107, 20);
 		contentPane.add(txtIp);
 		txtIp.setColumns(10);
+		
+		JButton btnExit = new JButton("Exit");
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnExit_clic();
+			}
+		});
+		btnExit.setBounds(186, 91, 89, 23);
+		contentPane.add(btnExit);
+		
+		this.controle = controle;
 
 	}
 
